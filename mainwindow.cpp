@@ -110,6 +110,8 @@ void MainWindow::on_pushButton_2_clicked()
     {
         fin.open("database.txt", std::ios::app);
         fin<<lreg.toLocal8Bit().constData();
+
+
         QString str;
             int ch = 0;
             QVector<QString> names;
@@ -126,11 +128,11 @@ void MainWindow::on_pushButton_2_clicked()
             }
             if(ch>0)
             {
-            //fin.close();
+
          if (check_password(preg) == true)
          {
 
-            //fout.open("database.txt", std::ios::app);
+
             fout<<loginreg.toLocal8Bit().constData();
             fout<<"\r\n";
             fout<<pasreg.toLocal8Bit().constData();
