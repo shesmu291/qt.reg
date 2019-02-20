@@ -7,6 +7,8 @@
 #include <QTextStream>
 #include <QDebug>
 #include <fstream>
+#include <vector>
+#include <string>
 
 
 
@@ -19,6 +21,27 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+bool check_login(QString login)
+{
+    bool check = true;
+
+    for (int i = 0; i < login.length(); i++)
+    {
+        if (login[i] > 64 && login[i] < 91)
+        {
+            continue;
+        }
+        if(login[i] > 96 && login[i] < 123)
+        {
+            continue;
+        }
+        if (login[i]==' ') login[i]='_';
+        check = false;
+    }
+
+    return check;
 }
 bool check_password(QString password)
 {
@@ -76,43 +99,48 @@ bool check_password(QString password)
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    //QFile data("data1.txt");
-
-
-   /* if (!data.open(QIODevice::WriteOnly))
-    {
-        qDebug() << "Ошибка при открытии файла";
-    }*/
      QString loginreg=ui->login->text();
      QString pasreg=ui->pas->text();
  lreg=loginreg;
  preg=pasreg;
  QString text;
  std::ofstream fout;
- //fout.open("database.txt", std::ios::app);
+ std::ifstream fin;
+    if (check_login(lreg) == true)
+    {
+        fin.open("database.txt", std::ios::app);
+        fin<<lreg.toLocal8Bit().constData();
+        QString str;
+            int ch = 0;
+            QVector<QString> names;
+            QString sl = "login";
+            while (!fin.eof())
+            {
+                fin >> str;
 
-     while (true)
-     {
+                names.push_back(str);
+            }
+            for (int i = 0; i < names.size(); i++)
+            {
+                if (names[i] == sl) ch++;
+            }
+            if(ch>0)
+            {
+            //fin.close();
          if (check_password(preg) == true)
          {
 
-
-            // fout.open(QIODevice::Append );
-
-             //QTextStream stream(&data);
-
-            fout.open("database.txt", std::ios::app);
+            //fout.open("database.txt", std::ios::app);
             fout<<loginreg.toLocal8Bit().constData();
             fout<<"\r\n";
             fout<<pasreg.toLocal8Bit().constData();
              fout<<"\r\n";
-            //fout<<"\r\n"+loginreg;
-            //fout<<"\r\n"+pasreg;
 
-            // data.close();
+             fout.close();
+          
              ui->statusBar->showMessage("Cпасибо за регистрацию!");
              QMessageBox::information(this, "регистрация","Спасибо за регистрацию");
-             break;
+
          }
          if (check_password(preg) == false)
          {
@@ -120,12 +148,17 @@ void MainWindow::on_pushButton_2_clicked()
 
             QMessageBox::warning(this,"регистрация","пароль должен содержать не менее 1 цифры, 1 маленькой и заглавной буквы, должен быть длиннее 8 символов и короче 16(включительно)");
             pasreg.clear();
-            break;
+
 
          }
      }
+    else
+        {
+             ui->statusBar->showMessage("");
+        }
+    }
 
-}
+
 
 
 void MainWindow::on_pushButton_clicked()
