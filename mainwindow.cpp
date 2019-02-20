@@ -111,7 +111,7 @@ void MainWindow::on_pushButton_2_clicked()
         fin.open("database.txt", std::ios::app);
         fin<<lreg.toLocal8Bit().constData();
 
-
+...
         QString str;
             int ch = 0;
             QVector<QString> names;
