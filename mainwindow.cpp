@@ -109,9 +109,16 @@ void MainWindow::on_pushButton_2_clicked()
     if (check_login(lreg) == true)
     {
         fin.open("database.txt", std::ios::app);
-        fin<<lreg.toLocal8Bit().constData();
+        Vector<String> logins;
+       String buf;
+        while(!fin.eof())
+        {
 
-...
+            fin>>buf;
+            v.push_back(buf)
+        }
+        fin>>loginreg.toLocal8Bit().constData();
+
         QString str;
             int ch = 0;
             QVector<QString> names;
