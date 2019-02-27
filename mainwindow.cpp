@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QString>
 #include <QFile>
@@ -109,16 +109,30 @@ void MainWindow::on_pushButton_2_clicked()
     if (check_login(lreg) == true)
     {
         fin.open("database.txt", std::ios::app);
-        Vector<String> logins;
-       String buf;
-        while(!fin.eof())
+       /*   не понял почему с большой буквы
+	 Vector<String> logins;    
+         String buf;
+          */
+	vector<string> logins;
+	
+        while(!fin.eof()) //нужно будет пофиксить считывание паролей
         {
-
-            fin>>buf;
-            v.push_back(buf)
+            string mystr;
+            fin>>mystr;
+            logins.push_back(mystr)
         }
-        fin>>loginreg.toLocal8Bit().constData();
-
+        //fin>>loginreg.toLocal8Bit().constData();
+	bool match = false; //отвечает за наличие совпадений
+	for(int i = 0 ; i < logins.size();i++)
+	{
+	   if(loginreg.toLocal8Bit().constData() == logins[i]) 
+		{
+		   match = true;
+		}
+	}
+	//if(match == true) ошибка
+	//else все гуд, регистрация
+	//ниже не смотрел
         QString str;
             int ch = 0;
             QVector<QString> names;
