@@ -109,20 +109,34 @@ void MainWindow::on_pushButton_2_clicked()
     if (check_login(lreg) == true)
     {
         fin.open("database.txt", std::ios::app);
-        Vector<String> logins;
-       String buf;
-        while(!fin.eof())
+       std::vector<std::string> logins;
+            while(!fin.eof())
         {
 
-            fin>>buf;
-            v.push_back(buf)
+               std:: string mystr;
+                fin>>mystr;
+               logins.push_back(mystr);
         }
-        fin>>loginreg.toLocal8Bit().constData();
+        //fin>>loginreg.toLocal8Bit().constData();
+            bool match = false; //отвечает за наличие совпадений
+                for(int i = 0 ; i < logins.size();i++)
+                {
+                   if(loginreg.toLocal8Bit().constData() == logins[i])
+                    {
+                       match = true;
+                    }
+                   else
+                   {
+                        ui->statusBar->showMessage("ошибка");
+                   }
+                }
 
-        QString str;
+if (match==true)
+{
+        std::string str;
             int ch = 0;
-            QVector<QString> names;
-            QString sl = "login";
+            std::vector<std::string> names;
+            std::string sl = "login";
             while (!fin.eof())
             {
                 fin >> str;
@@ -163,13 +177,14 @@ void MainWindow::on_pushButton_2_clicked()
      }
     else
         {
-             ui->statusBar->showMessage("");
+             ui->statusBar->showMessage("//");
         }
     }
 
+    }
+    
 
-
-
+}
 void MainWindow::on_pushButton_clicked()
 {
     QString login=ui->login->text();
@@ -183,5 +198,6 @@ void MainWindow::on_pushButton_clicked()
              QMessageBox::warning(this,"вход","допущена ошибка, возможно Вы еще не зарегестрированны");
      }
 }
+
 
 
