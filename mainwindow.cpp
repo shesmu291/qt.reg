@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QString>
 #include <QFile>
@@ -97,7 +97,7 @@ bool check_password(QString password)
     return check;
 }
 
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::on_pushButton_2_clicked()//регистрация
 {
      QString loginreg=ui->login->text();
      QString pasreg=ui->pas->text();
@@ -109,31 +109,42 @@ void MainWindow::on_pushButton_2_clicked()
     if (check_login(lreg) == true)
     {
         fin.open("database.txt", std::ios::app);
-       std::vector<std::string> logins;
-            while(!fin.eof())
+       std::vector<std::string> logins_basa;
+            while(!fin.eof())//считывание с файла логинов
         {
 
                std:: string mystr;
                 fin>>mystr;
-               logins.push_back(mystr);
+               logins_basa.push_back(mystr);
         }
-        //fin>>loginreg.toLocal8Bit().constData();
+         fin.close();
             bool match = false; //отвечает за наличие совпадений
-                for(int i = 0 ; i < logins.size();i++)
+                for(int i = 0 ; i < logins_basa.size();i++)
                 {
-                   if(loginreg.toLocal8Bit().constData() == logins[i])
+                   if(loginreg.toLocal8Bit().constData() == logins_basa[i])
                     {
                        match = true;
+                       ui->statusBar->showMessage("такой логин существует");
+
                     }
-                   else
-                   {
-                        ui->statusBar->showMessage("ошибка");
-                   }
                 }
 
-if (match==true)
+if (match==false)//если логин подходит
 {
-        std::string str;
+
+    //std::vector<std::string> parol_basa;
+	
+     /*   while(!fin.eof()) //нужно будет пофиксить считывание паролей
+        {
+            std::string par;
+            fin>>par;
+            parol_basa.push_back(par);
+        }
+    */
+	//if(match == true) ошибка
+	//else все гуд, регистрация
+	//ниже не смотрел
+       /* QString str;
             int ch = 0;
             std::vector<std::string> names;
             std::string sl = "login";
@@ -148,12 +159,12 @@ if (match==true)
                 if (names[i] == sl) ch++;
             }
             if(ch>0)
-            {
+            {*/
 
          if (check_password(preg) == true)
          {
 
-
+        fout.open("database.txt", std::ios::app);
             fout<<loginreg.toLocal8Bit().constData();
             fout<<"\r\n";
             fout<<pasreg.toLocal8Bit().constData();
@@ -184,7 +195,7 @@ if (match==true)
     }
     
 
-}
+
 void MainWindow::on_pushButton_clicked()
 {
     QString login=ui->login->text();
