@@ -9,7 +9,8 @@
 #include <fstream>
 #include <vector>
 #include <string>
-
+#include <locale.h>
+#include <QTextCodec>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -99,6 +100,7 @@ bool check_password(QString password)
 
 void MainWindow::on_pushButton_2_clicked()//регистрация
 {
+   // QTextCodec::setCodecForCStrings(QTextCodec::codecForName("CP1251"));
      QString loginreg=ui->login->text();
      QString pasreg=ui->pas->text();
  lreg=loginreg;
@@ -108,7 +110,7 @@ void MainWindow::on_pushButton_2_clicked()//регистрация
  std::ifstream fin;
     if (check_login(lreg) == true)
     {
-        fin.open("database.txt", std::ios::app);
+        fin.open("data.txt", std::ios::app);
        std::vector<std::string> logins_basa;
             while(!fin.eof())//считывание с файла логинов
         {
@@ -164,7 +166,7 @@ if (match==false)//если логин подходит
          if (check_password(preg) == true)
          {
 
-        fout.open("database.txt", std::ios::app);
+        fout.open("data.txt", std::ios::app);
             fout<<loginreg.toLocal8Bit().constData();
             fout<<"\r\n";
             fout<<pasreg.toLocal8Bit().constData();
@@ -182,6 +184,7 @@ if (match==false)//если логин подходит
 
             QMessageBox::warning(this,"регистрация","пароль должен содержать не менее 1 цифры, 1 маленькой и заглавной буквы, должен быть длиннее 8 символов и короче 16(включительно)");
             pasreg.clear();
+            ui->pas->clear();
 
 
          }
