@@ -13,6 +13,8 @@
 #include <QTextCodec>
 
 
+
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -126,7 +128,7 @@ void MainWindow::on_pushButton_2_clicked()//регистрация
                    if(loginreg.toLocal8Bit().constData() == logins_basa[i])
                     {
                        match = true;
-                       ui->statusBar->showMessage("такой логин существует");
+                       ui->label_6->setText("такой логин существует999");
 
                     }
                 }
