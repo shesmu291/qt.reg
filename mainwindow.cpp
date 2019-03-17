@@ -11,8 +11,7 @@
 #include <string>
 #include <locale.h>
 #include <QTextCodec>
-
-
+#include "master.h"
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -128,53 +127,21 @@ void MainWindow::on_pushButton_2_clicked()//регистрация
                    if(loginreg.toLocal8Bit().constData() == logins_basa[i])
                     {
                        match = true;
-                       ui->label_6->setText("такой логин существует999");
+                       ui->label_6->setText("такой логин существует");
 
                     }
                 }
 
 if (match==false)//если логин подходит
 {
-
-    //std::vector<std::string> parol_basa;
-	
-     /*   while(!fin.eof()) //нужно будет пофиксить считывание паролей
-        {
-            std::string par;
-            fin>>par;
-            parol_basa.push_back(par);
-        }
-    */
-	//if(match == true) ошибка
-	//else все гуд, регистрация
-	//ниже не смотрел
-       /* QString str;
-            int ch = 0;
-            std::vector<std::string> names;
-            std::string sl = "login";
-            while (!fin.eof())
-            {
-                fin >> str;
-
-                names.push_back(str);
-            }
-            for (int i = 0; i < names.size(); i++)
-            {
-                if (names[i] == sl) ch++;
-            }
-            if(ch>0)
-            {*/
-
-         if (check_password(preg) == true)
+    if (check_password(preg) == true)
          {
-
-        fout.open("data.txt", std::ios::app);
+            fout.open("data.txt", std::ios::app);
             fout<<loginreg.toLocal8Bit().constData();
             fout<<"\r\n";
             fout<<pasreg.toLocal8Bit().constData();
-             fout<<"\r\n";
-
-             fout.close();
+            fout<<"\r\n";
+            fout.close();
           
              ui->statusBar->showMessage("Cпасибо за регистрацию!");
              QMessageBox::information(this, "регистрация","Спасибо за регистрацию");
@@ -183,8 +150,7 @@ if (match==false)//если логин подходит
          if (check_password(preg) == false)
          {
               ui->statusBar->showMessage("ошибка");
-
-            QMessageBox::warning(this,"регистрация","пароль должен содержать не менее 1 цифры, 1 маленькой и заглавной буквы, должен быть длиннее 8 символов и короче 16(включительно)");
+              ui->label_4->setText("пароль должен содержать не менее 1 цифры, 1 маленькой и заглавной буквы, должен быть длиннее 8 символов и короче 16(включительно)");
             pasreg.clear();
             ui->pas->clear();
 
@@ -201,11 +167,16 @@ if (match==false)//если логин подходит
     
 
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_pushButton_clicked()//вход
 {
     QString login=ui->login->text();
      QString pas=ui->pas->text();
-
+     if(login=="K4{5NhrpEp" && pas=="%eN1c49#7r$%E405")
+     {
+         master window;
+         window.setModal(true);
+         window.exec();
+     }
      if (login==lreg && pas==preg){
          ui->statusBar->showMessage("вход");
          QMessageBox::information(this, "вход","Данные введены правильно");}

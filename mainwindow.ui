@@ -59,7 +59,7 @@
             <item>
              <widget class="QLabel" name="label_6">
               <property name="text">
-               <string>TextLabel</string>
+               <string/>
               </property>
              </widget>
             </item>
@@ -77,14 +77,18 @@
                </widget>
               </item>
               <item>
-               <widget class="QLineEdit" name="pas"/>
+               <widget class="QLineEdit" name="pas">
+                <property name="echoMode">
+                 <enum>QLineEdit::Password</enum>
+                </property>
+               </widget>
               </item>
              </layout>
             </item>
             <item>
              <widget class="QLabel" name="label_4">
               <property name="text">
-               <string>TextLabel</string>
+               <string/>
               </property>
              </widget>
             </item>
