@@ -101,7 +101,7 @@ bool check_password(QString password)
 
 std::string GetHas(std::string word)
   {
-    if (word.length() > 16 or word.length() < 8)
+    if ((word.size() > 16) || (word.size() < 8))
     {
         return "@error@";
     }
@@ -110,11 +110,12 @@ std::string GetHas(std::string word)
         std::string Hash;
         std::string Salt = "safe";
         int Size = 16;
+        int i;
         QVector<int> arr;
         int num[20] = { 13,23,54,756,2,34,12,87,87,456,34,23,76,89,23,54,23,54,65,32 };
-        for (int i = 0; i < Size; i++)
+        for ( i = 0; i < Size; i++)
         {
-            if (i == word.length())
+            if (i == int(word.size()))
             {
                 Size = Size - i;
                 i = 0;
@@ -175,7 +176,7 @@ if (match==false)//если логин подходит
             fout.open("data.txt", std::ios::app);
             fout<<loginreg.toLocal8Bit().constData();
             fout<<"\r\n";
-            fout<< GetHas(pasreg.toLocal8Bit().constData());
+            fout<<";;"<< GetHas(pasreg.toLocal8Bit().constData());
             fout<<"\r\n";
             fout.close();
           
@@ -213,8 +214,20 @@ void MainWindow::on_pushButton_clicked()//вход
          window.setModal(true);
          window.exec();
      }
-     std::string pr= GetHas(pas.toLocal8Bit().constData());
-     if (login==lreg &&  pr==preg.toLocal8Bit().constData()){
+    std::ifstream fin;
+    fin.open("data.txt", std::ios::app);
+    std::vector<std::string> logins_basa;
+         for(int i=0; i<fin.eof();i++)//считывание с файла логинов
+     {
+
+            std:: string mystr;
+             fin>>mystr;
+            if (fin[i]==";")
+            logins_basa.push_back(mystr);
+     }
+      fin.close();
+     //std::string pr= GetHas(pas.toLocal8Bit().constData());
+     if (login==lreg &&  pas==preg.toLocal8Bit().constData()){
          ui->statusBar->showMessage("вход");
          QMessageBox::information(this, "вход","Данные введены правильно");}
      else {
