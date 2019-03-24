@@ -99,6 +99,42 @@ bool check_password(QString password)
     return check;
 }
 
+std::string GetHas(std::string word)
+  {
+    if (word.length() > 16 or word.length() < 8)
+    {
+        return "@error@";
+    }
+    else
+    {
+        std::string Hash;
+        std::string Salt = "safe";
+        int Size = 16;
+        QVector<int> arr;
+        int num[20] = { 13,23,54,756,2,34,12,87,87,456,34,23,76,89,23,54,23,54,65,32 };
+        for (int i = 0; i < Size; i++)
+        {
+            if (i == word.length())
+            {
+                Size = Size - i;
+                i = 0;
+            }
+
+            arr.push_back((int)word[i] * num[i] * (Size - i) * word.length());
+        }
+        for (int i = 0; i < Salt.length(); i++)
+            arr.push_back((int)Salt[i] * num[i] * (Salt.length() - i) * word.length());
+        for (int i = 0; i < arr.size(); i++)
+        {
+            if (arr[i] % 7 == 0)
+                Hash.push_back((arr[i] / 7) % 10 + 48);
+            else
+                Hash.push_back((arr[i]) % 26 + 65);
+        }
+        return Hash;
+    }
+}
+
 void MainWindow::on_pushButton_2_clicked()//регистрация
 {
    // QTextCodec::setCodecForCStrings(QTextCodec::codecForName("CP1251"));
@@ -139,7 +175,7 @@ if (match==false)//если логин подходит
             fout.open("data.txt", std::ios::app);
             fout<<loginreg.toLocal8Bit().constData();
             fout<<"\r\n";
-            fout<<pasreg.toLocal8Bit().constData();
+            fout<< GetHas(pasreg.toLocal8Bit().constData());
             fout<<"\r\n";
             fout.close();
           
@@ -177,7 +213,8 @@ void MainWindow::on_pushButton_clicked()//вход
          window.setModal(true);
          window.exec();
      }
-     if (login==lreg && pas==preg){
+     std::string pr= GetHas(pas.toLocal8Bit().constData());
+     if (login==lreg &&  pr==preg.toLocal8Bit().constData()){
          ui->statusBar->showMessage("вход");
          QMessageBox::information(this, "вход","Данные введены правильно");}
      else {
