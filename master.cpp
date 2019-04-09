@@ -6,6 +6,8 @@ master::master(QWidget *parent) :
     ui(new Ui::master)
 {
     ui->setupUi(this);
+    model=new QStandardItemModel(5,2,this);
+    //ui->tableWid
 }
 
 master::~master()

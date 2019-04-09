@@ -2,6 +2,7 @@
 #define MASTER_H
 
 #include <QDialog>
+#include <QStandardItemModel>
 
 namespace Ui {
 class master;
@@ -17,6 +18,7 @@ public:
 
 private:
     Ui::master *ui;
+     QStandardItemModel *model;
 };
 
 #endif // MASTER_H

@@ -14,6 +14,7 @@
 #include "master.h"
 
 
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -53,6 +54,7 @@ bool check_password(QString password)
     for (int i = 0; i < password.length(); i++)
     {
         if (password[i] == '1' || password[i] == '2' || password[i] == '3')
+
         {
             quantity_numbers++;
         }
@@ -176,7 +178,7 @@ if (match==false)//если логин подходит
             fout.open("data.txt", std::ios::app);
             fout<<loginreg.toLocal8Bit().constData();
             fout<<"\r\n";
-            fout<<";;"<< GetHas(pasreg.toLocal8Bit().constData());
+            fout<<GetHas(pasreg.toLocal8Bit().constData());
             fout<<"\r\n";
             fout.close();
           
@@ -210,30 +212,53 @@ void MainWindow::on_pushButton_clicked()//вход
      QString pas=ui->pas->text();
      if(login=="K4{5NhrpEp" && pas=="%eN1c49#7r$%E405")
      {
-         master window;
+        master window;
          window.setModal(true);
          window.exec();
      }
     std::ifstream fin;
     fin.open("data.txt", std::ios::app);
-    std::vector<std::string> logins_basa;
-         for(int i=0; i<fin.eof();i++)//считывание с файла логинов
+    std::vector<std::string> vhod;
+    std::string vhod_l;
+    std:: string vhod_p;
+    QString test;
+    bool l=0;
+    bool p=0;
+    QMessageBox::information(this, "регистрация","vhod");
+        while(!fin.eof())//считывание с файла логинов
      {
 
-            std:: string mystr;
-             fin>>mystr;
-            if (fin[i]==";")
-            logins_basa.push_back(mystr);
-     }
+           fin>>vhod_l;
+           if (login.toLocal8Bit().constData()==vhod_l)
+           {
+               QMessageBox::information(this, "регистрация","ya v iiif");
+
+               l=1;
+           }
+
+
+           fin>>vhod_p;
+           if (GetHas(pas.toLocal8Bit().constData())==vhod_p) p=1;
+
+
+           if (l==1 && p==1) break;
+           else
+           {
+               l=0;
+               p=0;
+           }
+
+    }
+
       fin.close();
-     //std::string pr= GetHas(pas.toLocal8Bit().constData());
-     if (login==lreg &&  pas==preg.toLocal8Bit().constData()){
-         ui->statusBar->showMessage("вход");
-         QMessageBox::information(this, "вход","Данные введены правильно");}
-     else {
-             ui->statusBar->showMessage("ошибка");
-             QMessageBox::warning(this,"вход","допущена ошибка, возможно Вы еще не зарегестрированны");
-     }
+      //login==lreg &&  pas==preg.toLocal8Bit().constData()
+    if (l==1 && p==1){
+        ui->statusBar->showMessage("вход");
+        QMessageBox::information(this, "вход","Данные введены правильно");}
+    else {
+            ui->statusBar->showMessage("ошибка");
+            QMessageBox::warning(this,"вход","допущена ошибка, возможно Вы еще не зарегестрированны");
+    }
 }
 
 
