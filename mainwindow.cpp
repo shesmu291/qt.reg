@@ -243,6 +243,7 @@ void MainWindow::on_pushButton_clicked()//вход
 
            if (l==1 && p==1) break;
            else
+               //;;;;;Ss
            {
                l=0;
                p=0;
