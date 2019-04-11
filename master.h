@@ -16,6 +16,9 @@ public:
     explicit master(QWidget *parent = nullptr);
     ~master();
 
+private slots:
+    void on_pushButton_clicked();
+
 private:
     Ui::master *ui;
      QStandardItemModel *model;

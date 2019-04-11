@@ -231,6 +231,7 @@ void MainWindow::on_pushButton_clicked()//вход
          window.setModal(true);
          window.exec();
      }
+     else{
      std::ifstream fin;
      std::ofstream fout;
      fin.open("data.txt", std::ios::app);
@@ -267,6 +268,7 @@ void MainWindow::on_pushButton_clicked()//вход
             ui->statusBar->showMessage("ошибка");
             QMessageBox::warning(this,"вход","допущена ошибка, возможно Вы еще не зарегестрированны");
     }
+     }
 }
 
 
