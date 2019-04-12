@@ -46,3 +46,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES += \
     data.txt \
     data.txt
+
+QMAKE_LFLAGS_RELEASE += -static -static-libgcc
