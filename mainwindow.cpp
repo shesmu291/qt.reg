@@ -40,7 +40,7 @@ bool check_login(QString login)
         {
             continue;
         }
-        if(login[i] > 96 && login[i] < 123)
+        if(login[i] > 96 && login[i] < 123 || login[i]==137)
         {
             continue;
         }
