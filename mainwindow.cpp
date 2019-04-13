@@ -116,27 +116,33 @@ std::string GetHas(std::string word)
         std::string Hash;
         std::string Salt = "safe";
         int Size = 16;
-        int i;
-        QVector<int> arr;
-        int num[20] = { 13,23,54,756,2,34,12,87,87,456,34,23,76,89,23,54,23,54,65,32 };
-        for ( i = 0; i < Size; i++)
+        QVector<unsigned long int> arr;
+        int num[20] = { 13,23,54,756,2,34,12,87,84,456,34,23,76,89,23,54,23,54,65,32 };
+        for (int i = 0; i < Size; i++)
         {
-            if (i == int(word.size()))
+            if (i == word.length())
             {
                 Size = Size - i;
                 i = 0;
             }
-
-            arr.push_back((int)word[i] * num[i] * (Size - i) * word.length());
+            arr.push_back(abs(static_cast<int>(word[i]) * num[i] * (Size - i) * pow(i, i)));
         }
         for (int i = 0; i < Salt.length(); i++)
-            arr.push_back((int)Salt[i] * num[i] * (Salt.length() - i) * word.length());
+            arr.push_back(abs((static_cast<int>(Salt[i]) * num[i] * (Salt.length() - i) * i *pow(i, i)) - pow(19, i)));
         for (int i = 0; i < arr.size(); i++)
         {
-            if (arr[i] % 7 == 0)
-                Hash.push_back((arr[i] / 7) % 10 + 48);
-            else
-                Hash.push_back((arr[i]) % 26 + 65);
+
+            if (arr[i] % 15 == 0)
+            {
+                Hash.push_back((arr[i]) % 25 + 65);
+                continue;
+            }
+            if (arr[i] % 3 == 0)
+            {
+                Hash.push_back((arr[i]) % 10 + 47);
+                continue;
+            }
+            Hash.push_back((arr[i]) % 25 + 97);
         }
         return Hash;
     }
